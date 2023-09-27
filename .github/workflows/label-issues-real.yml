@@ -6,11 +6,13 @@ on:
 jobs:
   assign-label:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
       - name: Print labels
         run: echo ${{github.event.issue.labels}}
       - name: Assign label
-        if: contains(github.event.issue.labels, 'bug')
+        if: contains(github.event.issue.title, 'bug')
         run: |
           curl -X POST \
           --url https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels \
